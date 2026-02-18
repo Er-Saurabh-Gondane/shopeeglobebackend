@@ -1,4 +1,4 @@
-exports.validateRegister = (req, res, next) => {
+const validateRegister = (req, res, next) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -13,5 +13,26 @@ exports.validateRegister = (req, res, next) => {
     });
   }
 
-  next(); // move to controller
+  next();
 };
+
+// Validate Add to Cart
+const validateCart = (req, res, next) => {
+  const { productId, quantity } = req.body;
+
+  if (!productId || !quantity) {
+    return res.status(400).json({
+      message: "Product ID and quantity are required"
+    });
+  }
+
+  if (quantity <= 0) {
+    return res.status(400).json({
+      message: "Quantity must be greater than 0"
+    });
+  }
+
+  next();
+};
+
+module.exports = { validateRegister, validateCart };
